@@ -26,12 +26,30 @@ static const char * filePath = "/tmp/obs-vkcapture-ready";
 
 static inline void WriteStatus(_Bool status)
 {
-    if(*getenv("OBS_VKCAPTURE_FILE") != '1'){ hlog("OBS_VKCAPTURE_FILE Disable");return;}
+    
+    if(*getenv("OBS_VKCAPTURE_STATUSFILE") != '1')
+    {    
+        #ifdef NDEBUG
+         hlog("OBS_VKCAPTURE_STATUSFILE Disabled");
+        #endif
+        return;
+    }
+    
+    if(getenv("OBS_VKCAPTURE_STATUSFILE_CUSTOMPATH") != NULL){filePath = getenv("OBS_VKCAPTURE_STATUSFILE_CUSTOMPATH");}
 
-    if(getenv("OBS_VKCAPTURE_CUSTOMFILE") != NULL){filePath = *getenv("OBS_VKCAPTURE_CUSTOMFILE");}
+    #ifdef NDEBUG
+    hlog("OBS_VKCAPTURE_STATUSFILE Enabled with PATH: %s",filePath);
+    #endif
 
     FILE* file = fopen(filePath, "w");
-    if (file == NULL) {hlog("Failed To Open File Descriptor");fclose(file);return;};
+    if (file == NULL) 
+    {
+        #ifdef NDEBUG
+        hlog("Failed To Open File Descriptor");
+        #endif
+        fclose(file);
+        return;
+    };
 
     fputs(status ? "1" : "0",file);
 
