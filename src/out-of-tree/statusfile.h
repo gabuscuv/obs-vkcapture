@@ -22,9 +22,9 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 
 #include "../utils.h"
 
-static const char * filePath = "/tmp/obs-vkcapture-ready";
+static const char * file_path = "/tmp/obs-vkcapture-ready";
 
-static inline void WriteStatus(_Bool status)
+static inline void write_status_file(_Bool status)
 {
     
     if(*getenv("OBS_VKCAPTURE_STATUSFILE") != '1')
@@ -35,13 +35,13 @@ static inline void WriteStatus(_Bool status)
         return;
     }
     
-    if(getenv("OBS_VKCAPTURE_STATUSFILE_CUSTOMPATH") != NULL){filePath = getenv("OBS_VKCAPTURE_STATUSFILE_CUSTOMPATH");}
+    if(getenv("OBS_VKCAPTURE_STATUSFILE_CUSTOMPATH") != NULL){file_path = getenv("OBS_VKCAPTURE_STATUSFILE_CUSTOMPATH");}
 
     #ifdef NDEBUG
-    hlog("OBS_VKCAPTURE_STATUSFILE Enabled with PATH: %s",filePath);
+    hlog("OBS_VKCAPTURE_STATUSFILE Enabled with PATH: %s",file_path);
     #endif
 
-    FILE* file = fopen(filePath, "w");
+    FILE* file = fopen(file_path, "w");
     if (file == NULL) 
     {
         #ifdef NDEBUG

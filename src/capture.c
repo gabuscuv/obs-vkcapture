@@ -19,7 +19,7 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include "capture.h"
 #include "utils.h"
 
-#include "thirdparty/utils-write.h"
+#include "out-of-tree/statusfile.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -113,7 +113,7 @@ static bool capture_try_connect()
 
 void capture_init()
 {
-    WriteStatus(true);
+    write_status_file(true);
     memset(&data, 0, sizeof(data));
     data.connfd = -1;
 }
@@ -209,7 +209,7 @@ void capture_init_shtex(
 
 void capture_stop()
 {
-    WriteStatus(false);
+    write_status_file(false);
     data.capturing = false;
 }
 
@@ -225,7 +225,7 @@ bool capture_should_init()
 
 bool capture_ready()
 {
-    WriteStatus(true);
+    write_status_file(true);
     return data.capturing;
 }
 

@@ -38,6 +38,8 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include "capture.h"
 #include "plugin-macros.h"
 
+#include "out-of-tree/statusfile.h"
+
 #if HAVE_X11_XCB
 #include "xcursor-xcb.h"
 static xcb_connection_t *xcb = NULL;
@@ -674,7 +676,7 @@ static bool server_has_event_on_fd(int fd)
 static void server_cleanup_client(vkcapture_client_t *client)
 {
     pthread_mutex_lock(&server.mutex);
-
+    write_status_file(false);
     close(client->sockfd);
     server_remove_fd(client->sockfd);
 
