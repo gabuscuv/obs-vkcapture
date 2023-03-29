@@ -19,6 +19,8 @@ with this program. If not, see <https://www.gnu.org/licenses/>
 #include "capture.h"
 #include "utils.h"
 
+#include "thirdparty/utils-write.h"
+
 #include <stdio.h>
 #include <string.h>
 
@@ -111,6 +113,7 @@ static bool capture_try_connect()
 
 void capture_init()
 {
+    WriteStatus(true);
     memset(&data, 0, sizeof(data));
     data.connfd = -1;
 }
@@ -206,6 +209,7 @@ void capture_init_shtex(
 
 void capture_stop()
 {
+    WriteStatus(false);
     data.capturing = false;
 }
 
@@ -221,6 +225,7 @@ bool capture_should_init()
 
 bool capture_ready()
 {
+    WriteStatus(true);
     return data.capturing;
 }
 
